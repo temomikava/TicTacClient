@@ -28,12 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.loginToLobbyButton = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // loginToLobbyButton
+            // 
+            this.loginToLobbyButton.Location = new System.Drawing.Point(345, 191);
+            this.loginToLobbyButton.Name = "loginToLobbyButton";
+            this.loginToLobbyButton.Size = new System.Drawing.Size(321, 62);
+            this.loginToLobbyButton.TabIndex = 0;
+            this.loginToLobbyButton.Text = "Login to lobby";
+            this.loginToLobbyButton.UseVisualStyleBackColor = true;
+            this.loginToLobbyButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(1016, 597);
+            this.Controls.Add(this.loginToLobbyButton);
+            this.Name = "Form1";
+            this.Text = "Dashboard";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private Button loginToLobbyButton;
     }
 }

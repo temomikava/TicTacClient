@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 
 namespace TicTacClient
 {
@@ -18,37 +17,60 @@ namespace TicTacClient
             }).Build();
             connection.Closed += async (error) =>
             {
-                MessageBox.Show("server died");
-                Thread.Sleep(2000);
-                this.Close();
+                MessageBox.Show("server disconnected");
                 await connection.StartAsync();
+                MessageBox.Show("connected");
+                
             };
             this.Load += Form1_Load;
         }
-        static GameData gameData = new GameData();
+        public static GameData? gameData { get; set; }
+        public static List<GameData?> datas = new List<GameData?>();
 
         private async void Form1_Load(object? sender, EventArgs e)
+        {
+           
+            connection.On<JsonElement>("getcurrentgame", (game) =>
+            {
+               var json = game.GetRawText();
+               gameData = JsonConvert.DeserializeObject<GameData>(json);
+
+            });
+            connection.On<int, string>("ongamejoin", (errorcode, message) =>
+            {
+
+
+            });
+
+            connection.On<List<JsonElement>>("getallgame", (games) =>
+            {
+                List<string> jsons = new List<string>();
+                foreach (JsonElement element in games)
+                {
+                    jsons.Add(element.GetRawText());
+                }
+                foreach (string json in jsons)
+                {
+                    datas.Add(JsonConvert.DeserializeObject<GameData>(json));
+                }
+            });
+
+        }
+
+        private async void button1_Click(object sender, EventArgs e)
         {
             try
             {
                 await connection.StartAsync();
-                MessageBox.Show("signalR connected to the server!");
+                MessageBox.Show("you are connected!");
+                Lobby lobby=new Lobby(connection,datas);
+                lobby.Show();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
                 this.Close();
             }
-            connection.On<JsonElement>("getcurrentgame", (game) =>
-            {
-               var json = game.GetRawText();
-               gameData= JsonConvert.DeserializeObject<GameData>(json);
-               
-
-            });
-            await connection.InvokeAsync("creategame", 3, 2);
-
-          
         }
         //public static T ToObject<T>( JsonElement element)
         //{
