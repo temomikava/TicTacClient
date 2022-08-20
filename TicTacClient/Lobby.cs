@@ -15,40 +15,27 @@ namespace TicTacClient
 {
     public partial class Lobby : Form
     {
-        HubConnection connection;
-        List<GameData?> gameDatas;
-        public Lobby(HubConnection connection,List<GameData?> gameDatas)
+        HubConnection connection { get; set; }
+        public  List<GameData?>? gameDatas { get; set; }
+        public Lobby(HubConnection connection)
         {
             InitializeComponent();
             this.connection = connection;
-            this.Load += Lobby_Load;
-            this.gameDatas = gameDatas;
+            gameDatas = new List<GameData>();
+            InitializeList();
         }
 
-        private void Lobby_Load(object? sender, EventArgs e)
-        {
-            connection.On<List<JsonElement>>("getallgame", (games) =>
-            {
-                List<string> jsons = new List<string>();
-                foreach (JsonElement element in games)
-                {
-                    jsons.Add(element.GetRawText());
-                }
-                List<GameData?> datas = new List<GameData?>();
-                foreach (string json in jsons)
-                {
-                    datas.Add(JsonConvert.DeserializeObject<GameData>(json));
-                }
-            });
-        }
+       
 
-        private void creaeGameButton_Click(object sender, EventArgs e)
+        private async void creaeGameButton_Click(object sender, EventArgs e)
         {
-            connection.InvokeAsync("creategame", 3, 2);         
+          await connection.InvokeAsync("creategame", 3, 2);     
         }
-        public void ClientEvents(object sender, EventArgs e)
+        public void InitializeList()
         {
-            
+            availableGames.DataSource = null;
+            availableGames.DataSource = gameDatas;
+            availableGames.DisplayMember = "DisplayMember";
         }
         
     }

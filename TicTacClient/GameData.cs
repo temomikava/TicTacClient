@@ -17,5 +17,16 @@ namespace TicTacClient
         public int Winner_Player_id { get; set; }
         public int TargetScore { get; set; }
         public int BoardSize { get; set; }
+        public string DisplayMember
+        {
+            get
+            {
+                return $"player: {PlayerOne.UserName}, boardsize={BoardSize}, targetscore={TargetScore}";
+            }
+            set
+            {
+
+            }
+        }
     }
 }

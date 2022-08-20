@@ -8,6 +8,7 @@ namespace TicTacClient
     {
         private string _url = "https://localhost:44356/signalr";
         HubConnection connection;
+        Lobby lobby;
         public Form1()
         {
             InitializeComponent();
@@ -23,6 +24,7 @@ namespace TicTacClient
                 
             };
             this.Load += Form1_Load;
+            lobby = new Lobby(connection);
         }
         public static GameData? gameData { get; set; }
         public static List<GameData?> datas = new List<GameData?>();
@@ -53,6 +55,8 @@ namespace TicTacClient
                 {
                     datas.Add(JsonConvert.DeserializeObject<GameData>(json));
                 }
+                lobby.gameDatas=datas;
+                lobby.InitializeList();
             });
 
         }
@@ -63,8 +67,8 @@ namespace TicTacClient
             {
                 await connection.StartAsync();
                 MessageBox.Show("you are connected!");
-                Lobby lobby=new Lobby(connection,datas);
                 lobby.Show();
+                this.Hide();
             }
             catch (Exception ex)
             {
