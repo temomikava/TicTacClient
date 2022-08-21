@@ -17,16 +17,18 @@ namespace TicTacClient
         public int Winner_Player_id { get; set; }
         public int TargetScore { get; set; }
         public int BoardSize { get; set; }
+        private string? State { get; set; }
         public string DisplayMember
-        {
+        {           
             get
             {
-                return $"player: {PlayerOne.UserName}, boardsize={BoardSize}, targetscore={TargetScore}";
-            }
-            set
-            {
-
-            }
+                return $"player: {PlayerOne.UserName}, boardsize={BoardSize}, targetscore={TargetScore}, state= {GetState()}";
+            }            
+        }
+        private string GetState()
+        {
+            State = StateId == 1 ? StateType.created.ToString() : StateType.started.ToString();
+            return State;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace TicTacClient
             this.Load += Form1_Load;
             lobby = new Lobby(connection);
         }
-        private  GameData? gameData { get; set; }
+       // public  GameData? currentGame { get; set; }
 
         private async void Form1_Load(object? sender, EventArgs e)
         {
@@ -34,12 +34,12 @@ namespace TicTacClient
                 MessageBox.Show("connected");
 
             };
-            connection.On<JsonElement>("getcurrentgame", (game) =>
-            {
-               var json = game.GetRawText();
-               gameData = JsonConvert.DeserializeObject<GameData>(json);
+            //connection.On<JsonElement>("getcurrentgame", (game) =>
+            //{
+            //   var json = game.GetRawText();
+            //   currentGame = JsonConvert.DeserializeObject<GameData>(json);
 
-            });
+            //});
             connection.On<int, string>("ongamejoin", (errorcode, message) =>
             {
 
@@ -53,10 +53,10 @@ namespace TicTacClient
                 {
                     jsons.Add(element.GetRawText());
                 }
-                lobby.gameDatas.Clear();
+                lobby.allGames.Clear();
                 foreach (string json in jsons)
                 {
-                    lobby.gameDatas.Add(JsonConvert.DeserializeObject<GameData>(json));
+                    lobby.allGames.Add(JsonConvert.DeserializeObject<GameData>(json));
                 }
                 
             });
