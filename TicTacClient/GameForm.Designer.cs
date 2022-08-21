@@ -191,18 +191,18 @@
             this.yourScoreLabel.AutoSize = true;
             this.yourScoreLabel.Location = new System.Drawing.Point(647, 216);
             this.yourScoreLabel.Name = "yourScoreLabel";
-            this.yourScoreLabel.Size = new System.Drawing.Size(96, 25);
+            this.yourScoreLabel.Size = new System.Drawing.Size(136, 25);
             this.yourScoreLabel.TabIndex = 16;
-            this.yourScoreLabel.Text = "Your Score";
+            this.yourScoreLabel.Text = "PlayerOneScore";
             // 
             // opponentsScoreLabel
             // 
             this.opponentsScoreLabel.AutoSize = true;
             this.opponentsScoreLabel.Location = new System.Drawing.Point(647, 257);
             this.opponentsScoreLabel.Name = "opponentsScoreLabel";
-            this.opponentsScoreLabel.Size = new System.Drawing.Size(151, 25);
+            this.opponentsScoreLabel.Size = new System.Drawing.Size(135, 25);
             this.opponentsScoreLabel.TabIndex = 17;
-            this.opponentsScoreLabel.Text = "Opponents Score";
+            this.opponentsScoreLabel.Text = "PlayerTwoScore";
             // 
             // opponentScoreValue
             // 

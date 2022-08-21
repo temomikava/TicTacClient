@@ -33,10 +33,18 @@ namespace TicTacClient
             {
                 var json = game.GetRawText();
                 currentGame = JsonConvert.DeserializeObject<GameData>(json);
+                GameForm gameForm = new GameForm(connection, currentGame);
 
             });
+            connection.On<int,string>("ongamejoin", (errorcode,errormessage) =>
+            {
+                this.Hide();
+                GameForm game = new GameForm(connection, currentGame);
+                game.messageTextBox.Text = errormessage;
+               
+                game.Show();
+            });
         }
-
         private async void creaeGameButton_Click(object sender, EventArgs e)
         {
 
@@ -44,7 +52,7 @@ namespace TicTacClient
             GameForm gameForm = new GameForm(connection,currentGame);
 
             this.Hide();
-            gameForm.Show();
+            MessageBox.Show("wait for opponent connection");
         }
         public void InitializeList()
         {
@@ -53,6 +61,24 @@ namespace TicTacClient
             
             availableGames.DisplayMember = "DisplayMember";                       
         }
-        
+
+        private async void joinToGameButton_Click(object sender, EventArgs e)
+        {
+
+            var createdGames = allGames.Where(x => x?.StateId == 1);
+            if (createdGames.Count()>0)
+            {
+                GameData? data = createdGames.FirstOrDefault();
+                await connection.InvokeAsync("jointogame", data?.Id);
+               
+                this.Hide();
+
+            }
+            else
+            {
+                MessageBox.Show("there is no games to join");               
+            }
+            
+        }
     }
 }

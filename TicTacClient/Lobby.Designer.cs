@@ -31,6 +31,7 @@
             this.availableGames = new System.Windows.Forms.ListBox();
             this.creaeGameButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.joinToGameButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // availableGames
@@ -61,11 +62,22 @@
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // joinToGameButton
+            // 
+            this.joinToGameButton.Location = new System.Drawing.Point(738, 117);
+            this.joinToGameButton.Name = "joinToGameButton";
+            this.joinToGameButton.Size = new System.Drawing.Size(192, 65);
+            this.joinToGameButton.TabIndex = 3;
+            this.joinToGameButton.Text = "Join To Random Game";
+            this.joinToGameButton.UseVisualStyleBackColor = true;
+            this.joinToGameButton.Click += new System.EventHandler(this.joinToGameButton_Click);
+            // 
             // Lobby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1082, 966);
+            this.Controls.Add(this.joinToGameButton);
             this.Controls.Add(this.creaeGameButton);
             this.Controls.Add(this.availableGames);
             this.Controls.Add(this.menuStrip1);
@@ -82,5 +94,6 @@
         private ListBox availableGames;
         private Button creaeGameButton;
         private MenuStrip menuStrip1;
+        private Button joinToGameButton;
     }
 }

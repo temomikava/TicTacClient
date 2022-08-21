@@ -40,12 +40,51 @@ namespace TicTacClient
                 OnMoveMade(responce);
                 
             });
+            connection.On<int,int,string>("matchend", (playerOneScore,playerTwoScore,message) =>
+            {
+
+                yourScoreValue.Text = playerOneScore.ToString();
+                opponentScoreValue.Text = playerTwoScore.ToString();
+                messageTextBox.Text = message;
+            });
+            connection.On< string>("matchstart", ( message) =>
+            {
+                button1.Text = "";
+                button2.Text = "";
+                button3.Text = "";
+                button4.Text = "";
+                button5.Text = "";
+                button6.Text = "";
+                button7.Text = "";
+                button8.Text = "";
+                button9.Text = "";
+                
+            });
+            connection.On<int, int, string>("gameend", (playerOneScore, playerTwoScore, message) =>
+            {
+
+                yourScoreValue.Text = playerOneScore.ToString();
+                opponentScoreValue.Text = playerTwoScore.ToString();
+                messageTextBox.Text = message;
+                Thread.Sleep(3000);
+                Lobby lobby=new Lobby(connection);
+                this.Hide();
+                lobby.Show();
+            });
+            connection.On<int, string>("ondisconnected", (errorcode, erromessage) =>
+            {
+                MessageBox.Show(erromessage);
+                Lobby lobby = new Lobby(connection);
+                this.Hide();
+                lobby.Show();
+            });
         }
 
         private void InitializeForm()
         {
             targetScoreValue.Text=gameData?.TargetScore.ToString();
             playerOneNameValue.Text = gameData?.PlayerOne.UserName;
+            playerTwoNameValue.Text = gameData?.PlayerTwo?.UserName;
             messageTextBox.Text = "wait for oppontent connection";
             yourScoreValue.Text = 0.ToString();
             opponentScoreValue.Text = 0.ToString();
@@ -54,7 +93,7 @@ namespace TicTacClient
 
         private void OnMoveMade(OnMoveMadeResponce responce)
         {
-            if (responce.Errorcode == 1)
+            if (responce.Errorcode == 1 && responce.RowCordinate!=-1)
             {
                 if (responce.RowCordinate == 0 && responce.ColumnCoordinate == 0)
                 {
@@ -111,12 +150,12 @@ namespace TicTacClient
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 0, 2);
+            await connection.InvokeAsync("makemove", gameData?.Id, 0, 1);
         }
 
         private async void button3_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 0, 3);
+            await connection.InvokeAsync("makemove", gameData?.Id, 0, 2);
         }
 
         private async void button4_Click(object sender, EventArgs e)

@@ -11,7 +11,7 @@ namespace TicTacClient
         public int Id { get; set; }
         public int StateId { get; set; }
         public Player PlayerOne { get; set; }
-        public Player PlayerTwo { get; set; }
+        public Player? PlayerTwo { get; set; }
         public int PlayerOneScore { get; set; }
         public int PlayerTwoScore { get; set; }
         public int Winner_Player_id { get; set; }
