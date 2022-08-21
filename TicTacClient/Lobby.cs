@@ -16,26 +16,26 @@ namespace TicTacClient
     public partial class Lobby : Form
     {
         HubConnection connection { get; set; }
-        public  List<GameData?>? gameDatas { get; set; }
+        public BindingList<GameData?> gameDatas=new BindingList<GameData?>();
         public Lobby(HubConnection connection)
         {
             InitializeComponent();
             this.connection = connection;
-            gameDatas = new List<GameData>();
             InitializeList();
         }
 
        
-
+        
         private async void creaeGameButton_Click(object sender, EventArgs e)
         {
           await connection.InvokeAsync("creategame", 3, 2);     
         }
         public void InitializeList()
         {
-            availableGames.DataSource = null;
-            availableGames.DataSource = gameDatas;
-            availableGames.DisplayMember = "DisplayMember";
+            
+            availableGames.DataSource=gameDatas;
+            
+            availableGames.DisplayMember = "DisplayMember";                       
         }
         
     }

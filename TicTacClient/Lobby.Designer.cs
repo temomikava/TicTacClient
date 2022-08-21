@@ -39,12 +39,12 @@
             this.availableGames.ItemHeight = 25;
             this.availableGames.Location = new System.Drawing.Point(12, 12);
             this.availableGames.Name = "availableGames";
-            this.availableGames.Size = new System.Drawing.Size(607, 879);
+            this.availableGames.Size = new System.Drawing.Size(549, 879);
             this.availableGames.TabIndex = 0;
             // 
             // creaeGameButton
             // 
-            this.creaeGameButton.Location = new System.Drawing.Point(759, 61);
+            this.creaeGameButton.Location = new System.Drawing.Point(738, 27);
             this.creaeGameButton.Name = "creaeGameButton";
             this.creaeGameButton.Size = new System.Drawing.Size(192, 62);
             this.creaeGameButton.TabIndex = 1;

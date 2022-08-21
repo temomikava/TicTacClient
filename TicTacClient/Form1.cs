@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Text.Json;
 
 namespace TicTacClient
 {
     public partial class Form1 : Form
     {
-        private string _url = "https://localhost:44356/signalr";
+        private readonly string _url = "https://localhost:44356/signalr";
         HubConnection connection;
         Lobby lobby;
         public Form1()
@@ -14,24 +15,25 @@ namespace TicTacClient
             InitializeComponent();
             connection = new HubConnectionBuilder().WithUrl(_url, options =>
             {
-                options.AccessTokenProvider = async () => await Task.FromResult("05002795-2964-05b2-9dd9-ecce57768c3b");
+                options.AccessTokenProvider = async () => await Task.FromResult("b44bd080-9904-70ce-b873-67532a1eb21a");
             }).Build();
-            connection.Closed += async (error) =>
-            {
-                MessageBox.Show("server disconnected");
-                await connection.StartAsync();
-                MessageBox.Show("connected");
-                
-            };
+            
             this.Load += Form1_Load;
             lobby = new Lobby(connection);
         }
-        public static GameData? gameData { get; set; }
-        public static List<GameData?> datas = new List<GameData?>();
+        private  GameData? gameData { get; set; }
 
         private async void Form1_Load(object? sender, EventArgs e)
         {
-           
+
+            connection.Closed += async (error) =>
+            {
+                MessageBox.Show("server disconnected");                
+                await connection.StartAsync();
+                this.Show();
+                MessageBox.Show("connected");
+
+            };
             connection.On<JsonElement>("getcurrentgame", (game) =>
             {
                var json = game.GetRawText();
@@ -51,12 +53,12 @@ namespace TicTacClient
                 {
                     jsons.Add(element.GetRawText());
                 }
+                lobby.gameDatas.Clear();
                 foreach (string json in jsons)
                 {
-                    datas.Add(JsonConvert.DeserializeObject<GameData>(json));
+                    lobby.gameDatas.Add(JsonConvert.DeserializeObject<GameData>(json));
                 }
-                lobby.gameDatas=datas;
-                lobby.InitializeList();
+                
             });
 
         }
