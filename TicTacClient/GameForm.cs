@@ -32,6 +32,9 @@ namespace TicTacClient
             playerTwoNameValue.Enabled = false;
             yourScoreValue.Enabled = false;
             opponentScoreValue.Enabled = false;
+            targetScoreValue.Enabled = false;
+            messageTextBox.Enabled = false;
+            goBackToLobbyButton.Enabled = false;
             connection.On<int,string,int,int,string>("nextturn", (errorcode,errormessage,rowcoordinate,columncoordinate,mark) =>
             {
                 responce = new OnMoveMadeResponce();
@@ -88,6 +91,8 @@ namespace TicTacClient
                 yourScoreValue.Text = playerOneScore.ToString();
                 opponentScoreValue.Text = playerTwoScore.ToString();
                 messageTextBox.Text = message;
+                Thread.Sleep(1000);
+                goBackToLobbyButton.Enabled = true;
                 return;
             });
             connection.On<int, string>("ondisconnected", (errorcode, erromessage) =>
@@ -206,6 +211,15 @@ namespace TicTacClient
         private async void button9_Click(object sender, EventArgs e)
         {
             await connection.InvokeAsync("makemove", gameData?.Id, 2, 2);
+        }
+
+        private void goBackToLobbyButton_Click(object sender, EventArgs e)
+        {
+            Lobby lobby=new Lobby(connection);
+            Close();
+            lobby.Show();
+
+
         }
     }
 }

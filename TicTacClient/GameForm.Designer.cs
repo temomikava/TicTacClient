@@ -48,6 +48,7 @@
             this.opponentsScoreLabel = new System.Windows.Forms.Label();
             this.opponentScoreValue = new System.Windows.Forms.TextBox();
             this.yourScoreValue = new System.Windows.Forms.TextBox();
+            this.goBackToLobbyButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -218,11 +219,22 @@
             this.yourScoreValue.Size = new System.Drawing.Size(150, 31);
             this.yourScoreValue.TabIndex = 19;
             // 
+            // goBackToLobbyButton
+            // 
+            this.goBackToLobbyButton.Location = new System.Drawing.Point(710, 349);
+            this.goBackToLobbyButton.Name = "goBackToLobbyButton";
+            this.goBackToLobbyButton.Size = new System.Drawing.Size(198, 58);
+            this.goBackToLobbyButton.TabIndex = 20;
+            this.goBackToLobbyButton.Text = "Go Back To Lobby";
+            this.goBackToLobbyButton.UseVisualStyleBackColor = true;
+            this.goBackToLobbyButton.Click += new System.EventHandler(this.goBackToLobbyButton_Click);
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1254, 635);
+            this.Controls.Add(this.goBackToLobbyButton);
             this.Controls.Add(this.yourScoreValue);
             this.Controls.Add(this.opponentScoreValue);
             this.Controls.Add(this.opponentsScoreLabel);
@@ -272,6 +284,6 @@
         public Label opponentsScoreLabel;
         private TextBox opponentScoreValue;
         private TextBox yourScoreValue;
-        
+        public Button goBackToLobbyButton;
     }
 }
