@@ -262,15 +262,16 @@
         public Button button8;
         public Button button9;
         public Label playerOneNameLabel;
-        public TextBox playerOneNameValue;
+        private TextBox playerOneNameValue;
         public TextBox messageTextBox;
-        public Label playerTwoNameLabel;
-        public TextBox playerTwoNameValue;
-        public TextBox targetScoreValue;
+        private Label playerTwoNameLabel;
+        private TextBox playerTwoNameValue;
+        private TextBox targetScoreValue;
         public Label targetScoreLabel;
         public Label yourScoreLabel;
         public Label opponentsScoreLabel;
-        public TextBox opponentScoreValue;
-        public TextBox yourScoreValue;
+        private TextBox opponentScoreValue;
+        private TextBox yourScoreValue;
+        
     }
 }

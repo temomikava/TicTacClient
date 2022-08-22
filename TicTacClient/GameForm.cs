@@ -28,6 +28,10 @@ namespace TicTacClient
         OnMoveMadeResponce responce;
         private void GameForm_Load(object? sender, EventArgs e)
         {
+            playerOneNameValue.Enabled = false;
+            playerTwoNameValue.Enabled = false;
+            yourScoreValue.Enabled = false;
+            opponentScoreValue.Enabled = false;
             connection.On<int,string,int,int,string>("nextturn", (errorcode,errormessage,rowcoordinate,columncoordinate,mark) =>
             {
                 responce = new OnMoveMadeResponce();

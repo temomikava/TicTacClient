@@ -59,8 +59,8 @@ namespace TicTacClient
 
             await connection.InvokeAsync("creategame",  3, 2);
             GameForm gameForm = new GameForm(connection,currentGame);
-
-            this.Hide();
+            creaeGameButton.Enabled = false;
+            joinToGameButton.Enabled = false;
             MessageBox.Show("wait for opponent connection");
         }
         public void InitializeList()
