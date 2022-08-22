@@ -68,7 +68,7 @@
             this.joinToGameButton.Name = "joinToGameButton";
             this.joinToGameButton.Size = new System.Drawing.Size(192, 65);
             this.joinToGameButton.TabIndex = 3;
-            this.joinToGameButton.Text = "Join To Random Game";
+            this.joinToGameButton.Text = "Join To Game";
             this.joinToGameButton.UseVisualStyleBackColor = true;
             this.joinToGameButton.Click += new System.EventHandler(this.joinToGameButton_Click);
             // 

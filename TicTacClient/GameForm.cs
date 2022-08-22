@@ -62,18 +62,16 @@ namespace TicTacClient
             });
             connection.On<int, int, string>("gameend", (playerOneScore, playerTwoScore, message) =>
             {
-
+                Thread.Sleep(2000);
                 yourScoreValue.Text = playerOneScore.ToString();
                 opponentScoreValue.Text = playerTwoScore.ToString();
                 messageTextBox.Text = message;
-                Thread.Sleep(3000);
-                Lobby lobby=new Lobby(connection);
-                this.Hide();
-                lobby.Show();
+                return;
             });
             connection.On<int, string>("ondisconnected", (errorcode, erromessage) =>
             {
                 MessageBox.Show(erromessage);
+                Thread.Sleep(2000);
                 Lobby lobby = new Lobby(connection);
                 this.Hide();
                 lobby.Show();

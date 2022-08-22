@@ -15,7 +15,7 @@ namespace TicTacClient
             InitializeComponent();
             connection = new HubConnectionBuilder().WithUrl(_url, options =>
             {
-                options.AccessTokenProvider = async () => await Task.FromResult("b44bd080-9904-70ce-b873-67532a1eb21a");
+                options.AccessTokenProvider = async () => await Task.FromResult("3fcfab12-cbef-0edf-b62e-c78b360219c1");
             }).Build();
             
             this.Load += Form1_Load;

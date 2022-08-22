@@ -48,7 +48,7 @@ namespace TicTacClient
         private async void creaeGameButton_Click(object sender, EventArgs e)
         {
 
-            await connection.InvokeAsync("creategame", 3, 2);
+            await connection.InvokeAsync("creategame",  3, 2);
             GameForm gameForm = new GameForm(connection,currentGame);
 
             this.Hide();
@@ -68,10 +68,18 @@ namespace TicTacClient
             var createdGames = allGames.Where(x => x?.StateId == 1);
             if (createdGames.Count()>0)
             {
-                GameData? data = createdGames.FirstOrDefault();
-                await connection.InvokeAsync("jointogame", data?.Id);
-               
-                this.Hide();
+                var data = availableGames.SelectedItem as GameData;
+                if (createdGames.Any(x => x?.Id == data?.Id))
+                {
+                    await connection.InvokeAsync("jointogame", data?.Id);
+                    
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("this game is already started");
+                    return;
+                }
 
             }
             else
