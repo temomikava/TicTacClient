@@ -38,11 +38,20 @@ namespace TicTacClient
             });
             connection.On<int,string>("ongamejoin", (errorcode,errormessage) =>
             {
-                this.Hide();
-                GameForm game = new GameForm(connection, currentGame);
-                game.messageTextBox.Text = errormessage;
-               
-                game.Show();
+                if (errorcode==1)
+                {
+                    this.Hide();
+                    GameForm game = new GameForm(connection, currentGame);
+                    game.messageTextBox.Text = errormessage;
+
+                    game.Show();
+                }
+                else
+                {
+                    MessageBox.Show(errormessage);
+                    this.Show();
+                }
+                return;
             });
         }
         private async void creaeGameButton_Click(object sender, EventArgs e)

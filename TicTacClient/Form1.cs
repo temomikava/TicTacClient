@@ -15,7 +15,7 @@ namespace TicTacClient
             InitializeComponent();
             connection = new HubConnectionBuilder().WithUrl(_url, options =>
             {
-                options.AccessTokenProvider = async () => await Task.FromResult("3fcfab12-cbef-0edf-b62e-c78b360219c1");
+                options.AccessTokenProvider = async () => await Task.FromResult("05002795-2964-05b2-9dd9-ecce57768c3b");
             }).Build();
             
             this.Load += Form1_Load;
@@ -40,11 +40,7 @@ namespace TicTacClient
             //   currentGame = JsonConvert.DeserializeObject<GameData>(json);
 
             //});
-            connection.On<int, string>("ongamejoin", (errorcode, message) =>
-            {
-
-
-            });
+           
 
             connection.On<List<JsonElement>>("getallgame", (games) =>
             {
