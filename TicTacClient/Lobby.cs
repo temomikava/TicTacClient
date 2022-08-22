@@ -35,14 +35,14 @@ namespace TicTacClient
                 GameForm gameForm = new GameForm(connection, currentGame);
 
             });
-            connection.On<int,string>("ongamejoin", (errorcode,errormessage) =>
+            connection.On<int,string,string>("ongamejoin", (errorcode,errormessage,username) =>
             {
                 if (errorcode==1)
                 {
                     this.Hide();
                     GameForm game = new GameForm(connection, currentGame);
                     game.messageTextBox.Text = errormessage;
-
+                    game.usernameTextBox.Text=username;
                     game.Show();
                 }
                 else

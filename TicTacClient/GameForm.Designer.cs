@@ -49,11 +49,12 @@
             this.opponentScoreValue = new System.Windows.Forms.TextBox();
             this.yourScoreValue = new System.Windows.Forms.TextBox();
             this.goBackToLobbyButton = new System.Windows.Forms.Button();
+            this.usernameTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(239, 92);
+            this.button1.Location = new System.Drawing.Point(236, 150);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(112, 101);
             this.button1.TabIndex = 0;
@@ -62,7 +63,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(357, 92);
+            this.button2.Location = new System.Drawing.Point(354, 150);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 101);
             this.button2.TabIndex = 1;
@@ -71,7 +72,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(475, 92);
+            this.button3.Location = new System.Drawing.Point(472, 150);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 101);
             this.button3.TabIndex = 2;
@@ -80,7 +81,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(239, 199);
+            this.button4.Location = new System.Drawing.Point(236, 257);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(112, 101);
             this.button4.TabIndex = 3;
@@ -89,7 +90,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(357, 199);
+            this.button5.Location = new System.Drawing.Point(354, 257);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(112, 101);
             this.button5.TabIndex = 4;
@@ -98,7 +99,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(475, 199);
+            this.button6.Location = new System.Drawing.Point(472, 257);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(112, 101);
             this.button6.TabIndex = 5;
@@ -107,7 +108,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(239, 306);
+            this.button7.Location = new System.Drawing.Point(236, 364);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(112, 101);
             this.button7.TabIndex = 6;
@@ -116,7 +117,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(357, 306);
+            this.button8.Location = new System.Drawing.Point(354, 364);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(112, 101);
             this.button8.TabIndex = 7;
@@ -125,7 +126,7 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(475, 306);
+            this.button9.Location = new System.Drawing.Point(472, 364);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(112, 101);
             this.button9.TabIndex = 8;
@@ -150,7 +151,7 @@
             // 
             // messageTextBox
             // 
-            this.messageTextBox.Location = new System.Drawing.Point(257, 21);
+            this.messageTextBox.Location = new System.Drawing.Point(254, 87);
             this.messageTextBox.Name = "messageTextBox";
             this.messageTextBox.Size = new System.Drawing.Size(330, 31);
             this.messageTextBox.TabIndex = 11;
@@ -229,11 +230,19 @@
             this.goBackToLobbyButton.UseVisualStyleBackColor = true;
             this.goBackToLobbyButton.Click += new System.EventHandler(this.goBackToLobbyButton_Click);
             // 
+            // usernameTextBox
+            // 
+            this.usernameTextBox.Location = new System.Drawing.Point(292, 37);
+            this.usernameTextBox.Name = "usernameTextBox";
+            this.usernameTextBox.Size = new System.Drawing.Size(252, 31);
+            this.usernameTextBox.TabIndex = 21;
+            // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1254, 635);
+            this.Controls.Add(this.usernameTextBox);
             this.Controls.Add(this.goBackToLobbyButton);
             this.Controls.Add(this.yourScoreValue);
             this.Controls.Add(this.opponentScoreValue);
@@ -285,5 +294,6 @@
         private TextBox opponentScoreValue;
         private TextBox yourScoreValue;
         public Button goBackToLobbyButton;
+        public TextBox usernameTextBox;
     }
 }
