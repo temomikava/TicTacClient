@@ -24,10 +24,13 @@ namespace TicTacClient
             this.gameData = gameData;
             InitializeForm();
             this.Load += GameForm_Load;
+            
         }
         OnMoveMadeResponce responce;
+        public static string markk;
         private void GameForm_Load(object? sender, EventArgs e)
         {
+            usernameTextBox.Enabled = false;
             playerOneNameValue.Enabled = false;
             playerTwoNameValue.Enabled = false;
             yourScoreValue.Enabled = false;
@@ -43,6 +46,7 @@ namespace TicTacClient
                 responce.RowCordinate = rowcoordinate;
                 responce.ColumnCoordinate = columncoordinate;
                 responce.MarK = mark;
+                
                 messageTextBox.Text = errormessage;
                 OnMoveMade(responce);
                 
@@ -123,45 +127,54 @@ namespace TicTacClient
                 if (responce.RowCordinate == 0 && responce.ColumnCoordinate == 0)
                 {
                     button1.Text = responce.MarK;
+                    button1.Enabled = false;
                 }
                 if (responce.RowCordinate == 0 && responce.ColumnCoordinate == 1)
                 {
                     button2.Text = responce.MarK;
+                    button2.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 0 && responce.ColumnCoordinate == 2)
                 {
                     button3.Text = responce.MarK;
+                    button3.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 1 && responce.ColumnCoordinate == 0)
                 {
                     button4.Text = responce.MarK;
+                    button4.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 1 && responce.ColumnCoordinate == 1)
                 {
                     button5.Text = responce.MarK;
+                    button5.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 1 && responce.ColumnCoordinate == 2)
                 {
                     button6.Text = responce.MarK;
+                    button6.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 2 && responce.ColumnCoordinate == 0)
                 {
                     button7.Text = responce.MarK;
+                    button7.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 2 && responce.ColumnCoordinate == 1)
                 {
                     button8.Text = responce.MarK;
+                    button8.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 2 && responce.ColumnCoordinate == 2)
                 {
                     button9.Text = responce.MarK;
+                    button9.Enabled = false;
 
                 }
 
@@ -169,48 +182,48 @@ namespace TicTacClient
         }
         private async void button1_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id,0,0);
-
+            await connection.InvokeAsync("makemove", gameData?.GameId,0,0);
+            
         }
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 0, 1);
+            await connection.InvokeAsync("makemove", gameData?.GameId, 0, 1);
         }
 
         private async void button3_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 0, 2);
+            await connection.InvokeAsync("makemove", gameData?.GameId, 0, 2);
         }
 
         private async void button4_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 1, 0);
+            await connection.InvokeAsync("makemove", gameData?.GameId, 1, 0);
         }
 
         private async void button5_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 1, 1);
+            await connection.InvokeAsync("makemove", gameData?.GameId, 1, 1);
         }
 
         private async void button6_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 1, 2);
+            await connection.InvokeAsync("makemove", gameData?.GameId, 1, 2);
         }
 
         private async void button7_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 2, 0);
+            await connection.InvokeAsync("makemove", gameData?.GameId, 2, 0);
         }
 
         private async void button8_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 2, 1);
+            await connection.InvokeAsync("makemove", gameData?.GameId, 2, 1);
         }
 
         private async void button9_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.Id, 2, 2);
+            await connection.InvokeAsync("makemove", gameData?.GameId, 2, 2);
         }
 
         private void goBackToLobbyButton_Click(object sender, EventArgs e)
@@ -220,6 +233,28 @@ namespace TicTacClient
             lobby.Show();
 
 
+        }
+
+        private void button9_MouseEnter(object sender, EventArgs e)
+        {
+
+            Button button=new Button();
+            button = (Button)sender;
+            if (button.Enabled==true)
+            {
+                button.Text =markk;
+
+            }
+        }
+
+        private void button1_MouseLeave(object sender, EventArgs e)
+        {
+            Button button = new Button();
+            button = (Button)sender;
+            if (button.Enabled == true)
+            {
+                button.Text = "";
+            }
         }
     }
 }

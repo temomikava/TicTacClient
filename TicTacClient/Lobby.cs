@@ -28,6 +28,7 @@ namespace TicTacClient
 
         private void Lobby_Load(object? sender, EventArgs e)
         {
+            
             connection.On<JsonElement>("getcurrentgame", (game) =>
             {
                 var json = game.GetRawText();
@@ -56,6 +57,7 @@ namespace TicTacClient
         private async void creaeGameButton_Click(object sender, EventArgs e)
         {
 
+            GameForm.markk = "X";
             await connection.InvokeAsync("creategame",  3, 2);
             GameForm gameForm = new GameForm(connection,currentGame);
             creaeGameButton.Enabled = false;
@@ -77,9 +79,10 @@ namespace TicTacClient
             if (createdGames.Count()>0)
             {
                 var data = availableGames.SelectedItem as GameData;
-                if (createdGames.Any(x => x?.Id == data?.Id))
+                if (createdGames.Any(x => x?.GameId == data?.GameId))
                 {
-                    await connection.InvokeAsync("jointogame", data?.Id);
+                    GameForm.markk = "O";
+                    await connection.InvokeAsync("jointogame", data?.GameId);
                     
                     this.Hide();
                 }

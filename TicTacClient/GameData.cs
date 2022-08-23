@@ -8,7 +8,7 @@ namespace TicTacClient
 {
     public class GameData
     {
-        public int Id { get; set; }
+        public int GameId { get; set; }
         public int StateId { get; set; }
         public Player PlayerOne { get; set; }
         public Player? PlayerTwo { get; set; }
