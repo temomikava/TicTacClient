@@ -16,7 +16,7 @@ namespace TicTacClient
     public partial class Lobby : Form
     {
         HubConnection connection { get; set; }
-        public BindingList<GameData?> allGames=new BindingList<GameData?>();
+        public static BindingList<GameData?> allGames=new BindingList<GameData?>();
         public Lobby(HubConnection connection)
         {
             InitializeComponent();

@@ -49,10 +49,10 @@ namespace TicTacClient
                 {
                     jsons.Add(element.GetRawText());
                 }
-                lobby.allGames.Clear();
+                Lobby.allGames.Clear();
                 foreach (string json in jsons)
                 {
-                    lobby.allGames.Add(JsonConvert.DeserializeObject<GameData>(json));
+                    Lobby.allGames.Add(JsonConvert.DeserializeObject<GameData>(json));
                 }
                 
             });
