@@ -56,6 +56,27 @@ namespace TicTacClient
                 }
                 
             });
+            connection.On<List<JsonElement>>("onreconnected", async (games) =>
+            {
+                var list = new List<GameData>();
+                var jsons = new List<string>();
+                foreach (var item in games)
+                {
+                    jsons.Add(item.GetRawText());
+                }
+                foreach (var json in jsons)
+                {
+                    list.Add(JsonConvert.DeserializeObject<GameData>(json));
+                }
+
+                await connection.InvokeAsync("OnReconnected", list.First().GameId);
+            });
+            connection.On<JsonElement>("getmovehistory", (moves) =>
+            {
+                string json = moves.GetRawText();
+                var result = JsonConvert.DeserializeObject<int[]>(json);
+
+            });
 
         }
 

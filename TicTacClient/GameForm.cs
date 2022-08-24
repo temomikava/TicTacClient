@@ -101,11 +101,7 @@ namespace TicTacClient
             });
             connection.On<int, string>("ondisconnected", (errorcode, erromessage) =>
             {
-                MessageBox.Show(erromessage);
-                Thread.Sleep(2000);
-                Lobby lobby = new Lobby(connection);
-                this.Hide();
-                lobby.Show();
+                MessageBox.Show(erromessage);               
             });
         }
 
