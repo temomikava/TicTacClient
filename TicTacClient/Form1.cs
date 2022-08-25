@@ -20,12 +20,12 @@ namespace TicTacClient
             
             this.Load += Form1_Load;
             lobby = new Lobby(connection);
+
         }
        // public  GameData? currentGame { get; set; }
 
         private async void Form1_Load(object? sender, EventArgs e)
         {
-
             connection.Closed += async (error) =>
             {
                 MessageBox.Show("server disconnected");                
@@ -40,7 +40,7 @@ namespace TicTacClient
             //   currentGame = JsonConvert.DeserializeObject<GameData>(json);
 
             //});
-           
+
 
             connection.On<List<JsonElement>>("getallgame", (games) =>
             {
@@ -54,8 +54,9 @@ namespace TicTacClient
                 {
                     Lobby.allGames.Add(JsonConvert.DeserializeObject<GameData>(json));
                 }
-                
+
             });
+           
             connection.On<List<JsonElement>>("onreconnected", async (games) =>
             {
                 var list = new List<GameData>();
@@ -64,19 +65,16 @@ namespace TicTacClient
                 {
                     jsons.Add(item.GetRawText());
                 }
+                Lobby.gamesForRejoin.Clear();
                 foreach (var json in jsons)
                 {
-                    list.Add(JsonConvert.DeserializeObject<GameData>(json));
+                    Lobby.gamesForRejoin.Add(JsonConvert.DeserializeObject<GameData>(json));
                 }
-
-                await connection.InvokeAsync("OnReconnected", list.First().GameId);
+                this.Hide();
+                lobby.Show();
+                MessageBox.Show("choose games to rejoin");
             });
-            connection.On<JsonElement>("getmovehistory", (moves) =>
-            {
-                string json = moves.GetRawText();
-                var result = JsonConvert.DeserializeObject<int[]>(json);
-
-            });
+           
 
         }
 

@@ -32,6 +32,8 @@
             this.creaeGameButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.joinToGameButton = new System.Windows.Forms.Button();
+            this.gamesForReconnect = new System.Windows.Forms.ListBox();
+            this.rejoinButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // availableGames
@@ -40,7 +42,7 @@
             this.availableGames.ItemHeight = 25;
             this.availableGames.Location = new System.Drawing.Point(12, 12);
             this.availableGames.Name = "availableGames";
-            this.availableGames.Size = new System.Drawing.Size(549, 879);
+            this.availableGames.Size = new System.Drawing.Size(549, 529);
             this.availableGames.TabIndex = 0;
             // 
             // creaeGameButton
@@ -72,11 +74,32 @@
             this.joinToGameButton.UseVisualStyleBackColor = true;
             this.joinToGameButton.Click += new System.EventHandler(this.joinToGameButton_Click);
             // 
+            // gamesForReconnect
+            // 
+            this.gamesForReconnect.FormattingEnabled = true;
+            this.gamesForReconnect.ItemHeight = 25;
+            this.gamesForReconnect.Location = new System.Drawing.Point(12, 560);
+            this.gamesForReconnect.Name = "gamesForReconnect";
+            this.gamesForReconnect.Size = new System.Drawing.Size(180, 129);
+            this.gamesForReconnect.TabIndex = 4;
+            // 
+            // rejoinButton
+            // 
+            this.rejoinButton.Location = new System.Drawing.Point(303, 612);
+            this.rejoinButton.Name = "rejoinButton";
+            this.rejoinButton.Size = new System.Drawing.Size(112, 34);
+            this.rejoinButton.TabIndex = 5;
+            this.rejoinButton.Text = "Rejoin";
+            this.rejoinButton.UseVisualStyleBackColor = true;
+            this.rejoinButton.Click += new System.EventHandler(this.rejoinbutton_click);
+            // 
             // Lobby
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1082, 966);
+            this.Controls.Add(this.rejoinButton);
+            this.Controls.Add(this.gamesForReconnect);
             this.Controls.Add(this.joinToGameButton);
             this.Controls.Add(this.creaeGameButton);
             this.Controls.Add(this.availableGames);
@@ -95,5 +118,7 @@
         private Button creaeGameButton;
         private MenuStrip menuStrip1;
         private Button joinToGameButton;
+        private ListBox gamesForReconnect;
+        private Button rejoinButton;
     }
 }

@@ -111,6 +111,7 @@ namespace TicTacClient
             playerOneNameValue.Text = gameData?.PlayerOne.UserName;
             playerTwoNameValue.Text = gameData?.PlayerTwo?.UserName;
             messageTextBox.Text = "wait for oppontent connection";
+            
             yourScoreValue.Text = 0.ToString();
             opponentScoreValue.Text = 0.ToString();
 
