@@ -27,7 +27,7 @@ namespace TicTacClient
             
         }
         OnMoveMadeResponce responce;
-        public static string markk;
+        public  string markk;
         private void GameForm_Load(object? sender, EventArgs e)
         {
             usernameTextBox.Enabled = false;

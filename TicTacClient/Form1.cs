@@ -15,7 +15,7 @@ namespace TicTacClient
             InitializeComponent();
             connection = new HubConnectionBuilder().WithUrl(_url, options =>
             {
-                options.AccessTokenProvider = async () => await Task.FromResult("05002795-2964-05b2-9dd9-ecce57768c3b");
+                options.AccessTokenProvider = async () => await Task.FromResult("8b49d9dc-7758-8890-bc64-b634c764dfda");
             }).Build();
             
             this.Load += Form1_Load;
@@ -23,7 +23,7 @@ namespace TicTacClient
 
         }
        // public  GameData? currentGame { get; set; }
-
+      
         private async void Form1_Load(object? sender, EventArgs e)
         {
             connection.Closed += async (error) =>
@@ -56,25 +56,75 @@ namespace TicTacClient
                 }
 
             });
-           
-            connection.On<List<JsonElement>>("onreconnected", async (games) =>
+
+            connection.On<List<JsonElement>, Dictionary<int, int[]>, int>("onreconnected", (games, moves, userid) =>
             {
-                var list = new List<GameData>();
-                var jsons = new List<string>();
-                foreach (var item in games)
+                List<string> jsons = new List<string>();
+                List<GameData> Games = new List<GameData>();
+                foreach (var game in games)
                 {
-                    jsons.Add(item.GetRawText());
+                    jsons.Add(game.GetRawText());
                 }
-                Lobby.gamesForRejoin.Clear();
                 foreach (var json in jsons)
                 {
-                    Lobby.gamesForRejoin.Add(JsonConvert.DeserializeObject<GameData>(json));
+                    Games.Add(JsonConvert.DeserializeObject<GameData>(json));
                 }
-                this.Hide();
-                lobby.Show();
-                MessageBox.Show("choose games to rejoin");
+                foreach (var game in Games)
+                {
+                    GameForm form = new GameForm(connection, game);
+                    var array = moves.Where(x => x.Key == game.GameId).Single().Value;
+                    string[] arr = new string[array.Length];
+
+                    for (int i = 0; i < arr.Length; i++)
+                    {
+                        if (array[i] == 1)
+                        {
+                            arr[i] = "X";
+                        }
+                        if (array[i] == 0)
+                        {
+                            arr[i] = "0";
+                        }
+                        if (array[i] == -1)
+                        {
+                            arr[i] = "";
+                        }
+                    }
+                    List<Button> buttons = new List<Button>();
+                    form.button1.Text = arr[0];
+                    form.button2.Text = arr[1];
+                    form.button3.Text = arr[2];
+                    form.button4.Text = arr[3];
+                    form.button5.Text = arr[4];
+                    form.button6.Text = arr[5];
+                    form.button7.Text = arr[6];
+                    form.button8.Text = arr[7];
+                    form.button9.Text = arr[8];
+                    buttons.Add(form.button1);
+                    buttons.Add(form.button2);
+                    buttons.Add(form.button3);
+                    buttons.Add(form.button4);
+                    buttons.Add(form.button5);
+                    buttons.Add(form.button6);
+                    buttons.Add(form.button7);
+                    buttons.Add(form.button8);
+                    buttons.Add(form.button9);
+                    foreach (Button item in buttons)
+                    {
+                        if (item.Text != "")
+                        {
+                            item.Enabled = false;
+                        }
+                    }
+                    this.Hide();
+                    form.usernameTextBox.Text = userid == game.PlayerOne.Id ? game.PlayerOne.UserName : game.PlayerTwo.UserName;
+                    form.markk = userid == game.PlayerOne.Id ? "X" : "O";
+                    form.Show();
+                }
+
+
             });
-           
+
 
         }
 
@@ -83,7 +133,6 @@ namespace TicTacClient
             try
             {
                 await connection.StartAsync();
-                MessageBox.Show("you are connected!");
                 lobby.Show();
                 this.Hide();
             }

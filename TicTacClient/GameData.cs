@@ -27,7 +27,7 @@ namespace TicTacClient
         }
         private string GetState()
         {
-            State = StateId == 1 ? StateType.created.ToString() : StateType.started.ToString();
+            State = StateId == 1 ? StateType.created.ToString() : StateId==2? StateType.started.ToString() :StateType.waitingForreconnect.ToString();
             return State;
         }
     }

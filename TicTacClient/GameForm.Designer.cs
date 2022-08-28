@@ -301,16 +301,16 @@
         public Button button8;
         public Button button9;
         public Label playerOneNameLabel;
-        private TextBox playerOneNameValue;
+        public TextBox playerOneNameValue;
         public TextBox messageTextBox;
-        private Label playerTwoNameLabel;
-        private TextBox playerTwoNameValue;
-        private TextBox targetScoreValue;
+        public Label playerTwoNameLabel;
+        public TextBox playerTwoNameValue;
+        public TextBox targetScoreValue;
         public Label targetScoreLabel;
         public Label yourScoreLabel;
         public Label opponentsScoreLabel;
-        private TextBox opponentScoreValue;
-        private TextBox yourScoreValue;
+        public TextBox opponentScoreValue;
+        public TextBox yourScoreValue;
         public Button goBackToLobbyButton;
         public TextBox usernameTextBox;
     }

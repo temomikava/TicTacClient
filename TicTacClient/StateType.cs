@@ -8,6 +8,6 @@ namespace TicTacClient
 {
     internal enum StateType
     {
-        created=1, started
+        created=1, started,waitingForreconnect
     }
 }

@@ -42,7 +42,7 @@
             this.availableGames.ItemHeight = 25;
             this.availableGames.Location = new System.Drawing.Point(12, 12);
             this.availableGames.Name = "availableGames";
-            this.availableGames.Size = new System.Drawing.Size(549, 529);
+            this.availableGames.Size = new System.Drawing.Size(669, 529);
             this.availableGames.TabIndex = 0;
             // 
             // creaeGameButton
@@ -80,12 +80,12 @@
             this.gamesForReconnect.ItemHeight = 25;
             this.gamesForReconnect.Location = new System.Drawing.Point(12, 560);
             this.gamesForReconnect.Name = "gamesForReconnect";
-            this.gamesForReconnect.Size = new System.Drawing.Size(180, 129);
+            this.gamesForReconnect.Size = new System.Drawing.Size(665, 129);
             this.gamesForReconnect.TabIndex = 4;
             // 
             // rejoinButton
             // 
-            this.rejoinButton.Location = new System.Drawing.Point(303, 612);
+            this.rejoinButton.Location = new System.Drawing.Point(683, 594);
             this.rejoinButton.Name = "rejoinButton";
             this.rejoinButton.Size = new System.Drawing.Size(112, 34);
             this.rejoinButton.TabIndex = 5;
