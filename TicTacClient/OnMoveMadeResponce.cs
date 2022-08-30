@@ -13,5 +13,6 @@ namespace TicTacClient
         public int RowCordinate { get; set; }
         public int ColumnCoordinate { get; set; }
         public string MarK { get; set; }
+        public int GameId { get; set; }
     }
 }

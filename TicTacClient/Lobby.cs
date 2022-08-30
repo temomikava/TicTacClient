@@ -9,8 +9,10 @@ namespace TicTacClient
     public partial class Lobby : Form
     {
         HubConnection connection { get; set; }
+        public GameData CurrentGame { get; set; }
+        GameForm gameForm { get; set; }
         public static BindingList<GameData?> allGames = new BindingList<GameData?>();
-        public static BindingList<GameData?> gamesForRejoin = new BindingList<GameData?>();
+        
         public Lobby(HubConnection connection)
         {
             InitializeComponent();
@@ -18,29 +20,39 @@ namespace TicTacClient
             this.Load += Lobby_Load;
             InitializeList();
         }
-        public GameData? currentGame { get; set; }
-        public GameForm GameForm { get; set; }
+       
         private void Lobby_Load(object? sender, EventArgs e)
         {
-          
-            connection.On<JsonElement>("getcurrentgame", (game) =>
+
+            connection.On<JsonElement,int>("getcurrentgame", (game,id) =>
             {
                 var json = game.GetRawText();
-                currentGame = JsonConvert.DeserializeObject<GameData>(json);
+                CurrentGame = JsonConvert.DeserializeObject<GameData>(json);
+                gameForm = new GameForm(connection, CurrentGame);
+                if (id==CurrentGame.PlayerOne.Id)
+                {
+                    gameForm.markk = "X";
+                }
+                else
+                {
+                    gameForm.markk = "O";
+                }
+
 
             });
-            connection.On<int, string, string>("ongamejoin", (errorcode, errormessage, username) =>
+            connection.On<int, int, string, string>("ongamejoin", (errorcode, gameId, errormessage, username) =>
             {
                 if (errorcode == 1)
                 {
-                    GameForm.messageTextBox.Text = errormessage;
-                    GameForm.usernameTextBox.Text = username;
-                    GameForm.playerOneNameValue.Text = currentGame.PlayerOne.UserName;
-                    GameForm.playerTwoNameValue.Text= currentGame.PlayerTwo.UserName;
-                    GameForm.yourScoreValue.Text=currentGame.PlayerOneScore.ToString();
-                    GameForm.opponentScoreValue.Text=currentGame.PlayerTwoScore.ToString();
-                    GameForm.targetScoreValue.Text= currentGame.TargetScore.ToString();
-                    GameForm.Show();
+
+                    gameForm.messageTextBox.Text = errormessage;
+                    gameForm.usernameTextBox.Text = username;
+                    gameForm.playerOneNameValue.Text = CurrentGame.PlayerOne.UserName;
+                    gameForm.playerTwoNameValue.Text = CurrentGame.PlayerTwo.UserName;
+                    gameForm.yourScoreValue.Text = CurrentGame.PlayerOneScore.ToString();
+                    gameForm.opponentScoreValue.Text = CurrentGame.PlayerTwoScore.ToString();
+                    gameForm.targetScoreValue.Text = CurrentGame.TargetScore.ToString();
+                    gameForm.Show();
                 }
                 else
                 {
@@ -48,16 +60,11 @@ namespace TicTacClient
                 }
                 return;
             });
-
-
+            
         }
         private async void creaeGameButton_Click(object sender, EventArgs e)
         {
-
-            await connection.InvokeAsync("creategame", 9, 2);
-            GameForm = new GameForm(connection, currentGame);
-            GameForm.markk = "X";
-
+            await connection.InvokeAsync("creategame", 9, 2);            
         }
         public void InitializeList()
         {
@@ -65,8 +72,7 @@ namespace TicTacClient
             availableGames.DataSource = allGames;
 
             availableGames.DisplayMember = "DisplayMember";
-            gamesForReconnect.DataSource = gamesForRejoin;
-            gamesForReconnect.DisplayMember = "DisplayMember";
+            
         }
 
         private async void joinToGameButton_Click(object sender, EventArgs e)
@@ -76,19 +82,9 @@ namespace TicTacClient
             if (createdGames.Count() > 0)
             {
                 var data = availableGames.SelectedItem as GameData;
-                if (data.StateId == 1)
-                {
-                    Lobby.gamesForRejoin.Remove(data);
-                    GameForm = new GameForm(connection, data);
-                    GameForm.markk = "O";
-                    await connection.InvokeAsync("jointogame", data?.GameId);
-                   
-                }
-                else
-                {
-                    MessageBox.Show("this game is not in created state");
-                }
 
+                
+                await connection.InvokeAsync("jointogame", data?.GameId);
             }
             else
             {
@@ -99,12 +95,7 @@ namespace TicTacClient
 
         private async void rejoinbutton_click(object sender, EventArgs e)
         {
-            var games = gamesForRejoin;
-            if (games.Count() > 0)
-            {
-                var game = gamesForReconnect.SelectedItem as GameData;
-                await connection.InvokeAsync("onreconnected", game.GameId);
-            }
+            
         }
     }
 }

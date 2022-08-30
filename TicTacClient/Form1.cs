@@ -67,7 +67,8 @@ namespace TicTacClient
                 }
                 foreach (var json in jsons)
                 {
-                    Games.Add(JsonConvert.DeserializeObject<GameData>(json));
+                    var game=JsonConvert.DeserializeObject<GameData>(json);
+                    Games.Add(game);
                 }
                 foreach (var game in Games)
                 {

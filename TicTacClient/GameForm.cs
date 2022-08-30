@@ -15,19 +15,20 @@ namespace TicTacClient
 {
     public partial class GameForm : Form
     {
+
         HubConnection connection;
-        GameData? gameData;
-        public GameForm(HubConnection connection,GameData? gameData)
+        public GameData CurrentGame { get; set; }   
+        public GameForm(HubConnection connection, GameData game)
         {
             InitializeComponent();
             this.connection = connection;
-            this.gameData = gameData;
-            InitializeForm();
+            this.CurrentGame = game;
+            InitializeForm(game.GameId);
             this.Load += GameForm_Load;
-            
+
         }
         OnMoveMadeResponce responce;
-        public  string markk;
+        public string markk;
         private void GameForm_Load(object? sender, EventArgs e)
         {
             usernameTextBox.Enabled = false;
@@ -37,8 +38,7 @@ namespace TicTacClient
             opponentScoreValue.Enabled = false;
             targetScoreValue.Enabled = false;
             messageTextBox.Enabled = false;
-            goBackToLobbyButton.Enabled = false;
-            connection.On<int,string,int,int,string>("nextturn", (errorcode,errormessage,rowcoordinate,columncoordinate,mark) =>
+            connection.On<int, int, string, int, int, string>("nextturn", (errorcode, gameId, errormessage, rowcoordinate, columncoordinate, mark) =>
             {
                 responce = new OnMoveMadeResponce();
                 responce.Errorcode = errorcode;
@@ -46,12 +46,12 @@ namespace TicTacClient
                 responce.RowCordinate = rowcoordinate;
                 responce.ColumnCoordinate = columncoordinate;
                 responce.MarK = mark;
-                
+                responce.GameId = gameId;
                 messageTextBox.Text = errormessage;
-                OnMoveMade(responce);
-                
+                OnMoveMade(responce,gameId);
+
             });
-            connection.On<int,int,string>("matchend", (playerOneScore,playerTwoScore,message) =>
+            connection.On<int, int, int, string>("matchend", (gameId, playerOneScore, playerTwoScore, message) =>
             {
 
                 yourScoreValue.Text = playerOneScore.ToString();
@@ -67,7 +67,7 @@ namespace TicTacClient
                 button8.Enabled = false;
                 button9.Enabled = false;
             });
-            connection.On< string>("matchstart", ( message) =>
+            connection.On<int>("matchstart", (gameId) =>
             {
                 button1.Enabled = true;
                 button2.Enabled = true;
@@ -87,39 +87,35 @@ namespace TicTacClient
                 button7.Text = "";
                 button8.Text = "";
                 button9.Text = "";
-                
+
             });
-            connection.On<int, int, string>("gameend", (playerOneScore, playerTwoScore, message) =>
+            connection.On<int, int, int, string>("gameend", (gameId, playerOneScore, playerTwoScore, message) =>
             {
                 Thread.Sleep(2000);
                 yourScoreValue.Text = playerOneScore.ToString();
                 opponentScoreValue.Text = playerTwoScore.ToString();
                 messageTextBox.Text = message;
                 Thread.Sleep(1000);
-                goBackToLobbyButton.Enabled = true;
                 return;
             });
-            connection.On<int, string>("ondisconnected", (errorcode, erromessage) =>
-            {
-                MessageBox.Show(erromessage);               
-            });
+            
         }
 
-        private void InitializeForm()
+        private void InitializeForm(int gameId)
         {
-            targetScoreValue.Text=gameData?.TargetScore.ToString();
-            playerOneNameValue.Text = gameData?.PlayerOne.UserName;
-            playerTwoNameValue.Text = gameData?.PlayerTwo?.UserName;
+            targetScoreValue.Text = CurrentGame.TargetScore.ToString();
+            playerOneNameValue.Text = CurrentGame.PlayerOne.UserName;
+            playerTwoNameValue.Text = CurrentGame.PlayerTwo?.UserName;
             messageTextBox.Text = "wait for oppontent connection";
-            
+
             yourScoreValue.Text = 0.ToString();
             opponentScoreValue.Text = 0.ToString();
 
         }
 
-        private void OnMoveMade(OnMoveMadeResponce responce)
+        private void OnMoveMade(OnMoveMadeResponce responce, int gameId)
         {
-            if (responce.Errorcode == 1 && responce.RowCordinate!=-1)
+            if (responce.Errorcode == 1 && responce.RowCordinate != -1)
             {
                 if (responce.RowCordinate == 0 && responce.ColumnCoordinate == 0)
                 {
@@ -179,68 +175,60 @@ namespace TicTacClient
         }
         private async void button1_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.GameId,0,0);
-            
+            await connection.InvokeAsync("makemove", CurrentGame?.GameId, 0, 0);
+
         }
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.GameId, 0, 1);
+            await connection.InvokeAsync("makemove", CurrentGame?.GameId, 0, 1);
         }
 
         private async void button3_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.GameId, 0, 2);
+            await connection.InvokeAsync("makemove", CurrentGame?.GameId, 0, 2);
         }
 
         private async void button4_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.GameId, 1, 0);
+            await connection.InvokeAsync("makemove", CurrentGame?.GameId, 1, 0);
         }
 
         private async void button5_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.GameId, 1, 1);
+            await connection.InvokeAsync("makemove", CurrentGame?.GameId, 1, 1);
         }
 
         private async void button6_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.GameId, 1, 2);
+            await connection.InvokeAsync("makemove", CurrentGame?.GameId, 1, 2);
         }
 
         private async void button7_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.GameId, 2, 0);
+            await connection.InvokeAsync("makemove", CurrentGame?.GameId, 2, 0);
         }
 
         private async void button8_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.GameId, 2, 1);
+            await connection.InvokeAsync("makemove", CurrentGame?.GameId, 2, 1);
         }
 
         private async void button9_Click(object sender, EventArgs e)
         {
-            await connection.InvokeAsync("makemove", gameData?.GameId, 2, 2);
+            await connection.InvokeAsync("makemove", CurrentGame?.GameId, 2, 2);
         }
 
-        private void goBackToLobbyButton_Click(object sender, EventArgs e)
-        {
-            Lobby lobby=new Lobby(connection);
-            Close();
-            lobby.Show();
 
-
-        }
 
         private void button9_MouseEnter(object sender, EventArgs e)
         {
 
-            Button button=new Button();
+            Button button = new Button();
             button = (Button)sender;
-            if (button.Enabled==true)
+            if (button.Enabled == true)
             {
-                button.Text =markk;
-
+                button.Text = markk;
             }
         }
 
