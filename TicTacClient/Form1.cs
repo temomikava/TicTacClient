@@ -57,7 +57,7 @@ namespace TicTacClient
 
             });
 
-            connection.On<List<JsonElement>, Dictionary<int, int[]>, int>("onreconnected", (games, moves, userid) =>
+            connection.On<List<JsonElement>, Dictionary<int, int[]>, int,int>("onreconnected", (games, moves, userid,currentplayerid) =>
             {
                 List<string> jsons = new List<string>();
                 List<GameData> Games = new List<GameData>();

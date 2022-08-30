@@ -18,6 +18,8 @@ namespace TicTacClient
 
         HubConnection connection;
         public GameData CurrentGame { get; set; }   
+        public static List<GameForm>Forms = new List<GameForm>();
+        public int GameId { get; set; }
         public GameForm(HubConnection connection, GameData game)
         {
             InitializeComponent();
@@ -25,6 +27,8 @@ namespace TicTacClient
             this.CurrentGame = game;
             InitializeForm(game.GameId);
             this.Load += GameForm_Load;
+            this.GameId = game.GameId;
+            Forms.Add(this);
 
         }
         OnMoveMadeResponce responce;
@@ -47,54 +51,56 @@ namespace TicTacClient
                 responce.ColumnCoordinate = columncoordinate;
                 responce.MarK = mark;
                 responce.GameId = gameId;
-                messageTextBox.Text = errormessage;
+
                 OnMoveMade(responce,gameId);
 
             });
             connection.On<int, int, int, string>("matchend", (gameId, playerOneScore, playerTwoScore, message) =>
             {
-
-                yourScoreValue.Text = playerOneScore.ToString();
-                opponentScoreValue.Text = playerTwoScore.ToString();
-                messageTextBox.Text = message;
-                button1.Enabled = false;
-                button2.Enabled = false;
-                button3.Enabled = false;
-                button4.Enabled = false;
-                button5.Enabled = false;
-                button6.Enabled = false;
-                button7.Enabled = false;
-                button8.Enabled = false;
-                button9.Enabled = false;
+                var form = Forms.Where(x => x.GameId == gameId).Single();
+                form.yourScoreValue.Text = playerOneScore.ToString();
+                form.opponentScoreValue.Text = playerTwoScore.ToString();
+                form.messageTextBox.Text = message;
+                form.button1.Enabled = false;
+                form.button2.Enabled = false;
+                form.button3.Enabled = false;
+                form.button4.Enabled = false;
+                form.button5.Enabled = false;
+                form.button6.Enabled = false;
+                form.button7.Enabled = false;
+                form.button8.Enabled = false;
+                form.button9.Enabled = false;
             });
             connection.On<int>("matchstart", (gameId) =>
             {
-                button1.Enabled = true;
-                button2.Enabled = true;
-                button3.Enabled = true;
-                button4.Enabled = true;
-                button5.Enabled = true;
-                button6.Enabled = true;
-                button7.Enabled = true;
-                button8.Enabled = true;
-                button9.Enabled = true;
-                button1.Text = "";
-                button2.Text = "";
-                button3.Text = "";
-                button4.Text = "";
-                button5.Text = "";
-                button6.Text = "";
-                button7.Text = "";
-                button8.Text = "";
-                button9.Text = "";
+                var form = Forms.Where(x => x.GameId == gameId).Single();
+                form.button1.Enabled = true;
+                form.button2.Enabled = true;
+                form.button3.Enabled = true;
+                form.button4.Enabled = true;
+                form.button5.Enabled = true;
+                form.button6.Enabled = true;
+                form.button7.Enabled = true;
+                form.button8.Enabled = true;
+                form.button9.Enabled = true;
+                form.button1.Text = "";
+                form.button2.Text = "";
+                form.button3.Text = "";
+                form.button4.Text = "";
+                form.button5.Text = "";
+                form.button6.Text = "";
+                form.button7.Text = "";
+                form.button8.Text = "";
+                form.button9.Text = "";
 
             });
             connection.On<int, int, int, string>("gameend", (gameId, playerOneScore, playerTwoScore, message) =>
             {
                 Thread.Sleep(2000);
-                yourScoreValue.Text = playerOneScore.ToString();
-                opponentScoreValue.Text = playerTwoScore.ToString();
-                messageTextBox.Text = message;
+                var form = Forms.Where(x => x.GameId == gameId).Single();
+                form.yourScoreValue.Text = playerOneScore.ToString();
+                form.opponentScoreValue.Text = playerTwoScore.ToString();
+                form.messageTextBox.Text = message;
                 Thread.Sleep(1000);
                 return;
             });
@@ -106,7 +112,6 @@ namespace TicTacClient
             targetScoreValue.Text = CurrentGame.TargetScore.ToString();
             playerOneNameValue.Text = CurrentGame.PlayerOne.UserName;
             playerTwoNameValue.Text = CurrentGame.PlayerTwo?.UserName;
-            messageTextBox.Text = "wait for oppontent connection";
 
             yourScoreValue.Text = 0.ToString();
             opponentScoreValue.Text = 0.ToString();
@@ -115,63 +120,69 @@ namespace TicTacClient
 
         private void OnMoveMade(OnMoveMadeResponce responce, int gameId)
         {
+            GameForm form = Forms.Where(x => x.GameId == gameId).Single();
+            form.messageTextBox.Text = responce.ErrorMessage;
+
             if (responce.Errorcode == 1 && responce.RowCordinate != -1)
             {
                 if (responce.RowCordinate == 0 && responce.ColumnCoordinate == 0)
                 {
-                    button1.Text = responce.MarK;
-                    button1.Enabled = false;
+                    form.button1.Text = responce.MarK;
+                    form.button1.Enabled = false;
+
                 }
                 if (responce.RowCordinate == 0 && responce.ColumnCoordinate == 1)
                 {
-                    button2.Text = responce.MarK;
-                    button2.Enabled = false;
+                    form.button2.Text = responce.MarK;
+                    form.button2.Enabled = false;
+
 
                 }
                 if (responce.RowCordinate == 0 && responce.ColumnCoordinate == 2)
                 {
-                    button3.Text = responce.MarK;
-                    button3.Enabled = false;
+                    form.button3.Text = responce.MarK;
+                    form.button3.Enabled = false;
+
 
                 }
                 if (responce.RowCordinate == 1 && responce.ColumnCoordinate == 0)
                 {
-                    button4.Text = responce.MarK;
-                    button4.Enabled = false;
+                    form.button4.Text = responce.MarK;
+                    form.button4.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 1 && responce.ColumnCoordinate == 1)
                 {
-                    button5.Text = responce.MarK;
-                    button5.Enabled = false;
+                    form.button5.Text = responce.MarK;
+                    form.button5.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 1 && responce.ColumnCoordinate == 2)
                 {
-                    button6.Text = responce.MarK;
-                    button6.Enabled = false;
+                    form.button6.Text = responce.MarK;
+                    form.button6.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 2 && responce.ColumnCoordinate == 0)
                 {
-                    button7.Text = responce.MarK;
-                    button7.Enabled = false;
+                    form.button7.Text = responce.MarK;
+                    form.button7.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 2 && responce.ColumnCoordinate == 1)
                 {
-                    button8.Text = responce.MarK;
-                    button8.Enabled = false;
+                    form.button8.Text = responce.MarK;
+                    form.button8.Enabled = false;
 
                 }
                 if (responce.RowCordinate == 2 && responce.ColumnCoordinate == 2)
                 {
-                    button9.Text = responce.MarK;
-                    button9.Enabled = false;
+                    form.button9.Text = responce.MarK;
+                    form.button9.Enabled = false;
 
                 }
-
-            }
+                
+            }                      
         }
         private async void button1_Click(object sender, EventArgs e)
         {
