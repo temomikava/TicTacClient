@@ -96,7 +96,6 @@ namespace TicTacClient
             });
             connection.On<int, int, int, string>("gameend", (gameId, playerOneScore, playerTwoScore, message) =>
             {
-                Thread.Sleep(2000);
                 var form = Forms.Where(x => x.GameId == gameId).Single();
                 form.yourScoreValue.Text = playerOneScore.ToString();
                 form.opponentScoreValue.Text = playerTwoScore.ToString();
